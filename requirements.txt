@@ -8,11 +8,6 @@ mdurl==0.1.2
 mistune==3.0.2
 ml-dtypes==0.4.1
 more-itertools==10.5.0
-mpld3==0.5.10
-mpmath==0.0.0
-multidict==6.1.0
-multiprocess==0.70.16
-namex==0.0.8
 nbclient==0.5.6
 nbconvert==7.16.4
 nbformat==5.10.4
@@ -21,8 +16,6 @@ netifaces==0.11.0
 networkx==3.3
 ninja==1.11.1.1
 nltk==3.8.1
-notebook==7.2.1
-notebook_shim==0.2.4
 num2words==0.5.13
 numpy==1.26.3
 oauthlib==3.2.0
