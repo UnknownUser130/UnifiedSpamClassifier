@@ -1,0 +1,28 @@
+# ML Models
+model_mnb_super.pkl
+model_stacking_super.pkl
+model.pkl
+vectorizer.pkl
+
+# Datasets
+spamSMS.csv
+super_sms_dataset.csv
+
+# Notebooks
+New version.ipynb
+SmsSpamClassification.ipynb
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.py[cod]
+*$py.class
+
+# Environment
+.env
+.venv
+env/
+venv/
