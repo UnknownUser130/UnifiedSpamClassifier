@@ -3,7 +3,6 @@ appdirs==1.4.4
 beniget==0.4.1
 brotli==1.0.9
 chardet==4.0.0
-command-not-found==0.3
 cryptography==3.4.8
 cycler==0.11.0
 dbus-python==1.2.18
