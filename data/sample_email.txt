@@ -1,0 +1,851 @@
+Delivered-To: akashsamanta12d@gmail.com
+Received: by 2002:a05:7300:fd16:b0:15f:b565:3a3c with SMTP id jx22csp2543706dyc;
+        Mon, 12 May 2025 05:27:44 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHVhRkR14jgz5W1etGUwK7TIxZ3r1pcSL4M59FMKFvOgV0kZiZ1nDrgDspeOjCF6q4B2Saz
+X-Received: by 2002:a05:622a:2483:b0:48d:8053:d8ee with SMTP id d75a77b69052e-494527d4252mr196544741cf.36.1747052853725;
+        Mon, 12 May 2025 05:27:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1747052853; cv=none;
+        d=google.com; s=arc-20240605;
+        b=VLlzLPTwhOErFqWhuDJrD9vQ+dAIl+p5ym0xIFJkj0NbcajuFAG7CGJdZjR4xoHiYD
+         llPIY4V4iWYX4u60nlBnPj+iJrcFX/swVolPIuWCSqROAbRPKqArgVIpJKUb9+x3xY3w
+         kbDp0KQlaeARze2OUmIS6SrizxmuuCfvKCEpiFx1M5vYkigYIvp+P1dPTaUCn4X438br
+         IIa5iBgtkwi0+EZDX4D7H3FE56BE9siEM5xr0DFeiQUtrVt9bPPjiKtCgbCunfggoHP3
+         Go1rTOKRoK6RtA9rAmoCV/gm3+7WnBgnQxSgrWn4FMf4cLgTFSJqZUnNy8YFLHqTR56L
+         rm+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=to:subject:message-id:mime-version:from:date
+         :content-transfer-encoding:dkim-signature:dkim-signature;
+        bh=10JFCTK3K28mEJ0/1hUHTUkKrr9scpaTg9/1SSnKDSQ=;
+        fh=c8J1s+35uN2PBmZ0j7gjPhgbtwiVOTFtp8eLxWpklbk=;
+        b=KbqlWK5H7Smen/B34XjeLVGfYfgKDPTuvGbq8X19ZZHV8drZSztJcnN2FdKPPC8xW1
+         VB/OngRkb25FayDQjpDElExZxD5YL+EuCtS9i1NNUWRXyaPdeVmh+d6PxHyp+BCD5Ete
+         Idz62YJZQemb9t70BuEjpxIVDyZPxbpS91euRZHUOPNVaxa0EVdmRlC1AVn+JUhdrU4c
+         /vUYRc5+ukIfPZLokd8Ts0Frl3t+Pj3AddCidadyawNULkZF4ZPavmVe+RIhLA+dtgRP
+         cp5dwUxKdwyQx9RxxiwEp2mGWvsFaRwE3W3LwZJfvFxQjznGtpU0MQ6kKUZeeaUdZ5uc
+         a3tA==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@codemag.com header.s=002 header.b=aglHx89f;
+       dkim=pass header.i=@sendgrid.info header.s=smtpapi header.b=PHfzosxL;
+       spf=pass (google.com: domain of bounces+20232391-8fac-akashsamanta12d=gmail.com@em7431.codemag.com designates 168.245.37.219 as permitted sender) smtp.mailfrom="bounces+20232391-8fac-akashsamanta12d=gmail.com@em7431.codemag.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=codemag.com
+Return-Path: <bounces+20232391-8fac-akashsamanta12d=gmail.com@em7431.codemag.com>
+Received: from o1.ptr4444.codemag.com (o1.ptr4444.codemag.com. [168.245.37.219])
+        by mx.google.com with ESMTPS id d75a77b69052e-49452458c83si85544421cf.71.2025.05.12.05.27.33
+        for <akashsamanta12d@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 May 2025 05:27:33 -0700 (PDT)
+Received-SPF: pass (google.com: domain of bounces+20232391-8fac-akashsamanta12d=gmail.com@em7431.codemag.com designates 168.245.37.219 as permitted sender) client-ip=168.245.37.219;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@codemag.com header.s=002 header.b=aglHx89f;
+       dkim=pass header.i=@sendgrid.info header.s=smtpapi header.b=PHfzosxL;
+       spf=pass (google.com: domain of bounces+20232391-8fac-akashsamanta12d=gmail.com@em7431.codemag.com designates 168.245.37.219 as permitted sender) smtp.mailfrom="bounces+20232391-8fac-akashsamanta12d=gmail.com@em7431.codemag.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=codemag.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codemag.com; h=content-transfer-encoding:content-type:from:mime-version:subject:to: cc:content-type:feedback-id:from:subject:to; s=002; bh=10JFCTK3K28mEJ0/1hUHTUkKrr9scpaTg9/1SSnKDSQ=; b=aglHx89f65nmH9qBYRR4JhD2t4yycgHi700+GdPF5KkVItMBY0+2B0K/PbGqc28Ng50S HLdsARaqef5ziZBH/JG5oEMOBad1PlK4koVjK4kPpiUSevKadHuqXmRYzPPVeBa4cD5TRM eDwa/CbF0F1zXIVpm71rCA41ADW+ZipcsZ6q4vZg7MkS2Js0WCJB20MBzEYXIRjOvjCOHK mKA3PvfMjiMzOS0g8FtWZnsf3I2MTIlydHcRsuQS1cEs//F0oNecBB3ebLqKEm6z59uLc5 jnUTs0NL4CdqTQyIMkrJEJ7AC4fzt1Mc/lFO540WUAzX4y1KiEQD79janry6nkuw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sendgrid.info; h=content-transfer-encoding:content-type:from:mime-version:subject:to: cc:content-type:feedback-id:from:subject:to; s=smtpapi; bh=10JFCTK3K28mEJ0/1hUHTUkKrr9scpaTg9/1SSnKDSQ=; b=PHfzosxLn5Y6VjEtCNBa1Cpf7TQR5dpDu0TE1SR1RWOI7v7tXEkaIIE6Ec5sFJrNpGGb n14IBv8wqkNWBT/iZGUTzzEfxMTK4UUtkdQAmTsy7DARsXTtQOyczMCldrCHVkSxDic5+K 6/CJyV5F/ywe7BX9IcZzcC8PyHJfMB8Mg=
+Received: by recvd-canary-5f677f6c58-kfcwz with SMTP id recvd-canary-5f677f6c58-kfcwz-1-6821E935-34 2025-05-12 12:27:33.421754388 +0000 UTC m=+2902781.386361021
+Received: from MjAyMzIzOTE (unknown) by geopod-ismtpd-11 (SG) with HTTP id mj3MjoShSnm8nJsBVKgoiA Mon, 12 May 2025 12:27:33.378 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset=us-ascii
+Date: Mon, 12 May 2025 12:27:33 +0000 (UTC)
+From: Subscription Manager <subscriptions@codemag.com>
+Mime-Version: 1.0
+Message-ID: <mj3MjoShSnm8nJsBVKgoiA@geopod-ismtpd-11>
+Subject: Your CODE Magazine Subscription Has Expired!
+X-Auto-Response-Suppress: OOF
+X-SG-EID: u001.HhhBUX8DanvTcCFwp5j1qiulCLyCvHeoBUW6g1I2hd99yIDhnHJk//Tu7/prjn2TqaBC9MPOZ8VODWAzHOC+JCbKSFdShlypq7Sd9htIqIeWwn+G6osZ0fSZ1fJ/BuVixB4ZV53EBhnza2HaV+EFBuu/+AXjYumtCAqJS6AmNNZZJwJlt8ccoD9lzbo2mPVNP2UJOidnzO66d2HwxmrQHBTm6MjEfrW3mtnKMFksWcmMeZzhdt/mta3P0d4oIsnrkxkUpuyW3o4J23p4E9JT7g==
+X-SG-ID: u001.SdBcvi+Evd/bQef8eZF3BjvY7RCITZ6caZ7MG7xH72E5vBmDq8Xf5u7h2gvaM0CiXWiT08XvsGEjnZbds/3S7g==
+To: Akash Samanta <akashsamanta12d@gmail.com>
+X-Entity-ID: u001.xmzhPbazC3AI3YlKy29gCw==
+
+<html style=3D"font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Hel=
+vetica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', san=
+s-serif"><head style=3D"font-family: Roboto, -apple-system, BlinkMacSystemF=
+ont, 'Helvetica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open S=
+ans', sans-serif">  </head><body style=3D"font-family: Roboto, -apple-syste=
+m, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'C=
+antarell', 'Open Sans', sans-serif"><div style=3D"font-family: Roboto, -app=
+le-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', 'Oxygen', 'Ubu=
+ntu', 'Cantarell', 'Open Sans', sans-serif;width: 100%;background-color: rg=
+b(28, 134, 185);padding: 0"><img src=3D"https://codemag.com/Images/Logos/CO=
+DEMagazine_Small_White_Border.png" style=3D"font-family: Roboto, -apple-sys=
+tem, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', =
+'Cantarell', 'Open Sans', sans-serif;margin: 0" alt=3D"CODE Magazine Logo" =
+title=3D"CODE Magazine Logo"></div>
+<p style=3D"font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Helvet=
+ica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', sans-s=
+erif;text-align: left;font-size: 11pt;line-height: 1.5"><br style=3D"font-f=
+amily: Roboto, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe =
+UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', sans-serif"><br style=3D=
+"font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', =
+'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', sans-serif"><br s=
+tyle=3D"font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Helvetica =
+Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', sans-serif=
+">
+Dear Akash,<br style=3D"font-family: Roboto, -apple-system, BlinkMacSystemF=
+ont, 'Helvetica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open S=
+ans', sans-serif">
+<br style=3D"font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Helve=
+tica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', sans-=
+serif"><br style=3D"font-family: Roboto, -apple-system, BlinkMacSystemFont,=
+ 'Helvetica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans'=
+, sans-serif"><br style=3D"font-family: Roboto, -apple-system, BlinkMacSyst=
+emFont, 'Helvetica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Ope=
+n Sans', sans-serif">
+We hope you have been enjoying your subscription to <strong style=3D"font-f=
+amily: Roboto, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe =
+UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', sans-serif">CODE Magazin=
+e</strong>.<br style=3D"font-family: Roboto, -apple-system, BlinkMacSystemF=
+ont, 'Helvetica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open S=
+ans', sans-serif">
+<br style=3D"font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Helve=
+tica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', sans-=
+serif"><br style=3D"font-family: Roboto, -apple-system, BlinkMacSystemFont,=
+ 'Helvetica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans'=
+, sans-serif">
+Your subscription expired on <strong style=3D"font-family: Roboto, -apple-s=
+ystem, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu'=
+, 'Cantarell', 'Open Sans', sans-serif">Thursday, 08 May 2025</strong>.<br =
+style=3D"font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Helvetica=
+ Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', sans-seri=
+f">
+<br style=3D"font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Helve=
+tica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', sans-=
+serif"><br style=3D"font-family: Roboto, -apple-system, BlinkMacSystemFont,=
+ 'Helvetica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans'=
+, sans-serif"><br style=3D"font-family: Roboto, -apple-system, BlinkMacSyst=
+emFont, 'Helvetica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Ope=
+n Sans', sans-serif">
+<strong style=3D"font-family: Roboto, -apple-system, BlinkMacSystemFont, 'H=
+elvetica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', s=
+ans-serif">Do not miss a single issue - Renew today!</strong><br style=3D"f=
+ont-family: Roboto, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'S=
+egoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', sans-serif">
+<br style=3D"font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Helve=
+tica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', sans-=
+serif"><br style=3D"font-family: Roboto, -apple-system, BlinkMacSystemFont,=
+ 'Helvetica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans'=
+, sans-serif">
+<strong style=3D"font-family: Roboto, -apple-system, BlinkMacSystemFont, 'H=
+elvetica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', s=
+ans-serif">Print Subscriptions start at only $ 29.99!</strong><br style=3D"=
+font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', '=
+Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', sans-serif">
+<br style=3D"font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Helve=
+tica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', sans-=
+serif"><br style=3D"font-family: Roboto, -apple-system, BlinkMacSystemFont,=
+ 'Helvetica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans'=
+, sans-serif"><br style=3D"font-family: Roboto, -apple-system, BlinkMacSyst=
+emFont, 'Helvetica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Ope=
+n Sans', sans-serif">
+<img src=3D"http://www.codemag.com/magazine/currentcoversmall" style=3D"fon=
+t-family: Roboto, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Seg=
+oe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', sans-serif;float: rig=
+ht;margin-left: 20px;margin-bottom: 10px"><br style=3D"font-family: Roboto,=
+ -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', 'Oxygen',=
+ 'Ubuntu', 'Cantarell', 'Open Sans', sans-serif">
+<br style=3D"font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Helve=
+tica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', sans-=
+serif"><br style=3D"font-family: Roboto, -apple-system, BlinkMacSystemFont,=
+ 'Helvetica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans'=
+, sans-serif"><br style=3D"font-family: Roboto, -apple-system, BlinkMacSyst=
+emFont, 'Helvetica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Ope=
+n Sans', sans-serif">
+<a href=3D"http://url7522.codemag.com/ls/click?upn=3Du001.0UEb9PF5ssPgv288I=
+3pH-2FO5B62o1IYbaFu1fJzcZ571Uz6zI5Ell-2Fj4fqjhfAc5WhwsSL88ojc82kEW4i4ERW3fH=
+xG-2FcJ487PdWkahFZE8uVuJXzQF18SyatbI5Yl3-2B2rXTb4klmwnUwv5p3usnn2gAcLPTWRbS=
+6Db2n6E0JmilJ3bLx64foFgpSmUfSbNoQEKxc_AwVtOmw1PvrsUX8Offv8PVetAZDoxNwAhHbhG=
+tRdx6iq-2FNDXwjn-2FVF-2FUinXk9f835AmoJHoVrDqaG-2Bp9vnnKDQIEr9o7mEXQLPjmEuWH=
+e8uwm4bO5zDj2E-2FTI8eLc6vs5yUb6sjsWG26aXVzn5nV1KN0OgibdRmLtLBHbqmtBglpwO6wQ=
+VFidDgCpjHMYlrQke4MkbRLtfQWPBDf1Wt-2BYkbmthTYGALk4-2BwXOY0EHPvWhw9QaCSXcbMz=
+4SU9DOdA1xW5saIg5d2RwDeiqBkoUA-3D-3D" style=3D"font-family: Roboto, -apple-=
+system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu=
+', 'Cantarell', 'Open Sans', sans-serif">Renew My Subscription!</a><br styl=
+e=3D"font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Helvetica Neu=
+e', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', sans-serif">
+<br style=3D"font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Helve=
+tica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', sans-=
+serif"><br style=3D"font-family: Roboto, -apple-system, BlinkMacSystemFont,=
+ 'Helvetica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans'=
+, sans-serif"><br style=3D"font-family: Roboto, -apple-system, BlinkMacSyst=
+emFont, 'Helvetica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Ope=
+n Sans', sans-serif"><br style=3D"font-family: Roboto, -apple-system, Blink=
+MacSystemFont, 'Helvetica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell=
+', 'Open Sans', sans-serif">
+<strong style=3D"font-family: Roboto, -apple-system, BlinkMacSystemFont, 'H=
+elvetica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', s=
+ans-serif">Did you know that CODE is more than just a magazine?</strong>  O=
+ur primary business is consulting and custom software.  If you need tech he=
+lp, please reply to this email to schedule a free 1-hour consulting session=
+ with one of our developers.<br style=3D"font-family: Roboto, -apple-system=
+, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Ca=
+ntarell', 'Open Sans', sans-serif">
+<br style=3D"font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Helve=
+tica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', sans-=
+serif"><br style=3D"font-family: Roboto, -apple-system, BlinkMacSystemFont,=
+ 'Helvetica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans'=
+, sans-serif"><br style=3D"font-family: Roboto, -apple-system, BlinkMacSyst=
+emFont, 'Helvetica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Ope=
+n Sans', sans-serif"><br style=3D"font-family: Roboto, -apple-system, Blink=
+MacSystemFont, 'Helvetica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell=
+', 'Open Sans', sans-serif">
+<em style=3D"font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Helve=
+tica Neue', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', sans-=
+serif">This is not SPAM. You are receiving this email because you currently=
+ have an active CODE Magazine subscription. Please note that occasionally w=
+e choose to send our customers free issues past their original expiration d=
+ate. If you do not wish to renew this subscription, <a href=3D"http://url75=
+22.codemag.com/ls/click?upn=3Du001.0UEb9PF5ssPgv288I3pH-2FO5B62o1IYbaFu1fJz=
+cZ573VJv-2BGdanGJbL3Zu1VZI-2FLmnjOZwGUTKgUTz5yS4D51YilTzvifT6ZAm1H-2FnOzN4G=
+Hz757BECb99UkBXj9wheuxV-2FRV03Tdl9e2l0cUVwEqQ-3D-3DsMev_AwVtOmw1PvrsUX8Offv=
+8PVetAZDoxNwAhHbhGtRdx6iq-2FNDXwjn-2FVF-2FUinXk9f835AmoJHoVrDqaG-2Bp9vnnKDd=
+r5Xzp9yhAquIcIqqe8IMJzDcdwMBYNTyjiiMSkWcmpXY5qW-2BqfHLRUPa9uorK2HrQyc4pcbm9=
+xfMUQwLH6UskNyQ4BrwoKF7wcoJPELcP-2B-2F9TokIxKFKA3QqiXcsHEYXwGyLg70emdj3cJok=
+c8iz5XNUSWX-2B8zJQ6dScuf8V67e5Wdn7w58rZybtll0t676Q-3D-3D" style=3D"font-fam=
+ily: Roboto, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI=
+', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', sans-serif">click here</a>=
+ to unsubscribe from all future renewal notices for this subscription.</em>=
+</p>
+<img src=3D"http://url7522.codemag.com/wf/open?upn=3Du001.l8If58r-2BVHVmpNk=
+LK9Kq9O4B4dPSySkPIlnjJgp7jpyV-2B2p6SO9DdROOjQRVZ8xnRqcptf8t9Y8tzlgZwCv47A9d=
+F3JIM-2B-2BBa-2BYm2hGx-2BBcB23HXvdCK5zNUsEcN1Ay0VbykKjFr96rcKfTK0zhN95lZNM2=
+Im0aLwXA9FIRMfiH3H6LXSiqHrClAtkJvIpwkeI3aJpbK3-2Fvqzdo2jrC10ZPtkLUJCA8JHQtx=
+Q8EZRc9EttWD379FJaAjEiO2D0O8DiIDlKl0lnj4gE-2B0qumGrA-3D-3D" alt=3D"" width=
+=3D"1" height=3D"1" border=3D"0" style=3D"height:1px !important;width:1px !=
+important;border-width:0 !important;margin-top:0 !important;margin-bottom:0=
+ !important;margin-right:0 !important;margin-left:0 !important;padding-top:=
+0 !important;padding-bottom:0 !important;padding-right:0 !important;padding=
+-left:0 !important;"/></body></html>
+
+Delivered-To: akashsamanta12d@gmail.com
+Received: by 2002:a05:7300:fd16:b0:15f:b565:3a3c with SMTP id jx22csp319496dyc;
+        Thu, 8 May 2025 04:25:02 -0700 (PDT)
+X-Forwarded-Encrypted: i=4; AJvYcCX/bLGAPWOxGJDDMsbttnlFgnWRV0z9pwH6djrIfn6D6pGSKn1RLsM2opLcQFF0TfpSvpLs/SxQIwfsCdR4xFM=@gmail.com
+X-Received: by 2002:a05:6512:3d19:b0:545:cc2:accd with SMTP id 2adb3069b0e04-54fbfbf0845mr1011793e87.20.1746703501794;
+        Thu, 08 May 2025 04:25:01 -0700 (PDT)
+ARC-Seal: i=3; a=rsa-sha256; t=1746703501; cv=pass;
+        d=google.com; s=arc-20240605;
+        b=SHRYld9iT5B9AeBrc4jwR5hihurwrLKdpkpjYWj+pUnIPlGXq/CDaIJN+QYIoVIjx2
+         rper/cD8UsLieEiGf9N9GsO5xCeFO0f57MvYLA4XUbFOnGqX5Ylh7dRM/POGvK8p2XLg
+         xiXXbO1Uh9MSzYRvdw16cuRz1tlDHN13V/4cmnJ88id07jSNJKNGVvsyUVDuwpDhyNhK
+         6AMThc/m1syBVy+TUi7j6PZBuh+rbM93eoJZQD1816rtvVLJCs7Q0FOfissRwMd60L0w
+         iN/1gS9z/Y4repKB7UOp/AcLcSrEQb5uthwNwY4ufqxq+SCiJ+yy2W1HuB2hlzSx8wH0
+         wjDA==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:sender:dkim-signature:dkim-signature;
+        bh=aDIqGMw0SMJMjK41u6csJlzEZZmgZbGJHe7cvWNwC6o=;
+        fh=K+3n76giyYKjTJM97pZqIrqTrXJ7ALMgXuj9W3bvz9s=;
+        b=cBm7Oglxkvqf1pk6MGmpMyBDXAs+VUqHilGqaAV5bt+FwaPegFOPfLeW4PhFBIJH/N
+         3y73H5pKQmkW1UMyhjKGi43Pr467zEliXnj42HOVfHrTDRCSUGEtTpPuttjDKUKHiqpV
+         V1Qdmz0f3YN8fh1jG6oHtWycOIyqunLRW6WkhVBoWIfj3/dEqmBySVEFtTYDPHVNYf9I
+         tmhbXxpPAaHz7e0IhRvkL3aNCGFiw1T6mZbSBN9BZ7dnBk0cHZZ/zH2S/7pvJ0Ow12Sa
+         ncGxKSsHki2Ncn4YRalXtmbau4t85UlKM8D51PeXJ+ybXiaxeKW01BBdUxuV0uUvOW6g
+         pSwQ==;
+        dara=google.com
+ARC-Authentication-Results: i=3; mx.google.com;
+       dkim=pass header.i=@googlegroups.com header.s=20230601 header.b=t96Uo9yR;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=YAVVDiRQ;
+       arc=pass (i=2 spf=pass spfdomain=gmail.com dkim=pass dkdomain=gmail.com dmarc=pass fromdomain=gmail.com);
+       spf=pass (google.com: domain of aiml202125+bncbc37hf466edrbc5j6laamgqeyuhu3xy@googlegroups.com designates 209.85.220.55 as permitted sender) smtp.mailfrom=aiml202125+bncBC37HF466EDRBC5J6LAAMGQEYUHU3XY@googlegroups.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@gmail.com
+Return-Path: <aiml202125+bncBC37HF466EDRBC5J6LAAMGQEYUHU3XY@googlegroups.com>
+Received: from mail-sor-f55.google.com (mail-sor-f55.google.com. [209.85.220.55])
+        by mx.google.com with SMTPS id 2adb3069b0e04-54f606134f5sor1871625e87.3.2025.05.08.04.25.01
+        for <akashsamanta12d@gmail.com>
+        (Google Transport Security);
+        Thu, 08 May 2025 04:25:01 -0700 (PDT)
+Received-SPF: pass (google.com: domain of aiml202125+bncbc37hf466edrbc5j6laamgqeyuhu3xy@googlegroups.com designates 209.85.220.55 as permitted sender) client-ip=209.85.220.55;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@googlegroups.com header.s=20230601 header.b=t96Uo9yR;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=YAVVDiRQ;
+       arc=pass (i=2 spf=pass spfdomain=gmail.com dkim=pass dkdomain=gmail.com dmarc=pass fromdomain=gmail.com);
+       spf=pass (google.com: domain of aiml202125+bncbc37hf466edrbc5j6laamgqeyuhu3xy@googlegroups.com designates 209.85.220.55 as permitted sender) smtp.mailfrom=aiml202125+bncBC37HF466EDRBC5J6LAAMGQEYUHU3XY@googlegroups.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@gmail.com
+ARC-Seal: i=2; a=rsa-sha256; t=1746703501; cv=pass;
+        d=google.com; s=arc-20240605;
+        b=XBNLEXpZiFjgugjN4o+VO/gfWKdJGBeGnndyCOWHhRr0AZ5f4DeBEtVpU6gv5/4yBk
+         NBCLDTW76slyK/9za/SJWJqTMAW5KIpLqnoatAlo+LWfEtCwnKiQlWATnFBbAzGgru6+
+         H8x2sINpzEX0ggTqKtDLXkzQBvKyz3Xh9PtvDfL3xM6geQj8mNxH+c0MrwsFKuE4XVLc
+         lZQus7YhfdXa3sgiQGUPzjXW/fvIQ4ut0pidyZDGycFeF9/p1p25Y0a73c4d2w+0gOzf
+         ve+HD2LKuPly1Fe4Ss4/O2hxv15C0RbphDE7kwabXYAYIncxa1B56l6vilOkfiCTdJt/
+         Iozw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:sender:dkim-signature:dkim-signature;
+        bh=aDIqGMw0SMJMjK41u6csJlzEZZmgZbGJHe7cvWNwC6o=;
+        fh=K+3n76giyYKjTJM97pZqIrqTrXJ7ALMgXuj9W3bvz9s=;
+        b=PqsJsMvVTOnf9+6Jjb36OaOBQhqurVDYMqMBmbp/wl277k9qVFkVQ4ifShCjhedF4J
+         Sr0GmEhDyha8rF8Nwrb7CbYOfRD8fMlQiDw7MrV4ZmyWT6z9iOTjmyqckAoVW7klj2a7
+         G708EmN0yeZYR9aV5o/GcsXAsTta54XqEE4DhpG1VfKt/pTTPtsi27yWkbeokma6XHuz
+         wDIGcOFeCDgdM98hqo6gWVVHjAMMjXUr9NxC2wOuHEtmqgvBpExNVNO/rZoCeYILsuwE
+         kZX2SvfuE5P8vbwcWKJ/DIEBfXiKW907EktvCgZ9Rsa1d6E6YE9XQlZyV+HP9ZBe0vfm
+         1OIg==;
+        dara=google.com
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=bPljxtl7;
+       spf=pass (google.com: domain of anushkachowdhury1909@gmail.com designates 2a00:1450:4864:20::229 as permitted sender) smtp.mailfrom=anushkachowdhury1909@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlegroups.com; s=20230601; t=1746703501; x=1747308301; dara=google.com;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aDIqGMw0SMJMjK41u6csJlzEZZmgZbGJHe7cvWNwC6o=;
+        b=t96Uo9yR1pxUKRKZcM2uCf+ZZvIl6jIF2CXQySAtWcU4K3VGiA8lNFHBBd7dWW+J40
+         QQVVWE5x10+y7hz7PD4fUNCiTi6zZ6MyTPbtOb7TSeM1pd/oum3A+frMgebsLjYTZ0QT
+         J+tJFv80y400W99P4SKi0g/oeg4DIEV0i0U/N9R3yZW7Y33I3yLIULa/zh3gBriLQbhq
+         QnLSr9qZiSXYr15L0xKeSjrFtVb249xhSEKJFyZiZ2iQGzSxmOSe18fBLDwEZ6FjRNJe
+         DT91W257Z3B3BT9YeYhADwt4RW0XOLQwpJjFjCZmFXGa7hCtueHjeSkobcohZVoBcub/
+         Otjw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746703501; x=1747308301; dara=google.com;
+        h=list-unsubscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=aDIqGMw0SMJMjK41u6csJlzEZZmgZbGJHe7cvWNwC6o=;
+        b=YAVVDiRQ8Cf5mBWS4FEQxLmmF5S5Lmj2tXL1D6KzKpwrQb1A+jVv1TakpYOf9XUc0B
+         USv/RNSJDtbpdAe0E5j1UMooH3A3vOwGXVIeUneA9oDZ1KgzoM7Nk+0kVFDXuz6pUYlt
+         0hvjSa/OAmFCcgjM+fySfxkTngHDIJZ5jhSFTxyRcmiAD+Tl3YcYH8a+cT1pYUcIsmZg
+         ghmYlLdD3x/yHNs+F6j3XWFJUbbCRcQJ4q27oQ/S+GCELxRN6sfRi2RS32rSXOi+2re2
+         pvPZ/R5B0SwhiEYhfUi7dDiQN2SXuMS5tluzUCHBG2mslZuTW1Ilqs5YueBdTa4QzDf6
+         aI/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746703501; x=1747308301;
+        h=list-unsubscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aDIqGMw0SMJMjK41u6csJlzEZZmgZbGJHe7cvWNwC6o=;
+        b=s/p/0OWpX2MaV0l67gF510weVhdzBtRMfpirmALHBZRdv2h0dOb8aY8LsyOf7b7ZoH
+         8qrc2QqcyV6g4nye/sSofgAmQWGVC1gYi5VwZ7q2v6S01iCeTKeV5vbh2kh3islfjUHm
+         DTJ5M3z8cmE/YI0f+7B7vq5eAkCmyoGrMob2HsK3zHK6Di9Q70Hn4jfT92jphFsNV1WV
+         vv3wKiwdR/yr0xZkX7xrf/kUjCJFLkrIoqzVL9fWYZwqRF6UNtmHTkfro0BlmMWasR96
+         Vrko45o+qoY1Wd39iRj1gvd4+vwkthr81m71L5uD7oMVMjjAfN8C1tHweTEhEcmp4uk2
+         IIsQ==
+Sender: aiml202125@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCWWQioyQaOwnztLeiE9aVt4T0juqe9Q61IzWAoDQM3wXLv28QeXj6qpZJX1Mf8cLnQTDdN/Rs63IvM6WPWHhUs=@gmail.com
+X-Gm-Message-State: AOJu0Yz9khFJBIW/8BiB+h5gZqotgS3x21/O4aQfHvWkKn+xFcwy/vfy PXq1/+InaWNsPMqD0D3UQg6NYEqwkqR71nawXAUyMQ6P+h0USlZU
+X-Google-Smtp-Source: AGHT+IFd70YPvVTk8hMQOcUBsG1pdwWvItDo6wlb9mblvKI73LZ3TTV2H5oTZci5OloMyHCr39697Q==
+X-Received: by 2002:a05:6512:230f:b0:54e:a294:1304 with SMTP id 2adb3069b0e04-54fb96300b9mr954373e87.12.1746703499918;
+        Thu, 08 May 2025 04:24:59 -0700 (PDT)
+X-BeenThere: aiml202125@googlegroups.com; h=AVT/gBFwX8hZ8cS0tZbGGqYYrUQ7ect9QN/GboiBLNhIIOCc5A==
+Received: by 2002:ac2:5e62:0:b0:549:9221:d9db with SMTP id 2adb3069b0e04-54fc02d55c5ls141586e87.0.-pod-prod-08-eu; Thu, 08 May 2025 04:24:57 -0700 (PDT)
+X-Received: by 2002:a05:6512:1042:b0:54a:c4af:29 with SMTP id 2adb3069b0e04-54fbfc491bfmr841798e87.52.1746703496528;
+        Thu, 08 May 2025 04:24:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1746703496; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Wzb9EuPEN0I2jJ+1MPlhBB1OgqwXG7HcmU0xPLqfT1DAlwc9WVG8Be+NIU8lyWvK+f
+         Cx5A4FsaZ/+LBZ6obIKndQ+NNt5DjGd3VwbqQ86JnBKtw+fppy91swfKN0QHzia8u/ce
+         /f3RKvL81tRSL+px8qJZi+/ohvZ4tHOI63SudQk5DjBJIE+S0urH4tRNS/P60iUug14a
+         pvUSt7GLlQwZs2e+cTV4J7lXJwq5KnlSbiZ07nnyzzoknTW7Y+sKYJhMSf2g655YV0L+
+         UVAmgKzDwm+aLHgb0M1GFvqaUOmrBMX3hfzLnvC5hdKyDQvqOhiqiyH8WK+xBaLm8FCI
+         DqTQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :dkim-signature;
+        bh=JTAo9StwW37Qai301/vSWaLiEo6pp05Qi4FBElk+HYc=;
+        fh=bK/EhCfjH0L58MsotsTEh9pdITZp8SWC7d6w+osNzXU=;
+        b=Mi1WHLWM1ACScOUPmqV3AhUymUxBv4HNb9IWin42OSDkspYYafn5GBNmghM1UDnevW
+         f6l4Cv5HpbVP1H46UaTQLUPwRsEREngIuIOUhg+whlHGXbYGLtDrIe3M46E/GJjl3IIC
+         sIRBN4htC9Qlt/09/Wdnfvr421e9m9ylawSxVTYvKpncB2rnE0mY3HdgU+PiraicRB1o
+         0Fv/XKmNZkVVYJzb8TBYVM8jTx4sLeK3UNw+g4hfYXFOWigOzQvxEMbNMZ6y48uBJcmD
+         4SB1CLKOmyv7TIPE3hifJdPi1/FzDdsG9WOeiZWhU4ADgSMhbN3CH6cco6kQfFsz4ALX
+         Lr8g==;
+        dara=google.com
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=bPljxtl7;
+       spf=pass (google.com: domain of anushkachowdhury1909@gmail.com designates 2a00:1450:4864:20::229 as permitted sender) smtp.mailfrom=anushkachowdhury1909@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com. [2a00:1450:4864:20::229])
+        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-3202a5b1632si5320031fa.6.2025.05.08.04.24.56
+        for <aiml202125@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 May 2025 04:24:56 -0700 (PDT)
+Received-SPF: pass (google.com: domain of anushkachowdhury1909@gmail.com designates 2a00:1450:4864:20::229 as permitted sender) client-ip=2a00:1450:4864:20::229;
+Received: by mail-lj1-x229.google.com with SMTP id 38308e7fff4ca-30f30200b51so9114401fa.3
+        for <aiml202125@googlegroups.com>; Thu, 08 May 2025 04:24:56 -0700 (PDT)
+X-Gm-Gg: ASbGncsklmH5qPyhd1UJjYhYe4XLipIrG/hUYroDCtr4BbC1oJx0YUUfd9X98dBK3Kz pjMDDXt3PfEZ9tqgcXodD8Y7MhKAmEV5aSJzEtOjONMpJRIFq4jU9bycXwfE+czSsWDNLcF4/Q1 /DV0InUYkL48tEwC4ks1MG4z60PXZZhw6dx4ui
+X-Received: by 2002:a2e:ab08:0:b0:30b:d156:9e97 with SMTP id 38308e7fff4ca-326b87cf2femr9998471fa.8.1746703494641; Thu, 08 May 2025 04:24:54 -0700 (PDT)
+MIME-Version: 1.0
+References: <KL1PR02MB736038431476ECC599E7EE46E5132@KL1PR02MB7360.apcprd02.prod.outlook.com> <KL1PR02MB7360A4D07FCB0379E6A989F3E5132@KL1PR02MB7360.apcprd02.prod.outlook.com> <KL1PR02MB7360C4ACE65BDD21E875BC8FE5F52@KL1PR02MB7360.apcprd02.prod.outlook.com> <KL1PR02MB7360C6A2F4164B59994CDE10E5F52@KL1PR02MB7360.apcprd02.prod.outlook.com> <KL1PR02MB73600E19F7F696F55D1E7B99E5F52@KL1PR02MB7360.apcprd02.prod.outlook.com> <KL1PR02MB7360E428324DB3B454CDBD5DE5F52@KL1PR02MB7360.apcprd02.prod.outlook.com> <KL1PR02MB73609EB433B32EB7AA089EA1E5F52@KL1PR02MB7360.apcprd02.prod.outlook.com> <SG2PR02MB59996C6C2EA3978CDEC45C7896F52@SG2PR02MB5999.apcprd02.prod.outlook.com> <SG2PR02MB59995BE21A49B1424E6A982796C92@SG2PR02MB5999.apcprd02.prod.outlook.com> <KL1PR02MB73606A56C0A04F0FF47A1EB7E5C92@KL1PR02MB7360.apcprd02.prod.outlook.com> <SG2PR02MB599901D521651FCFC823BE1096C92@SG2PR02MB5999.apcprd02.prod.outlook.com> <SG2PR02MB5999EA49C8DF121EF9BC1CD296C92@SG2PR02MB5999.apcprd02.prod.outlook.com> <SG2PR02MB599945138EFFC6903EC3CC1996C92@SG2PR02MB5999.apcprd02.prod.outlook.com> <KL1PR02MB7360C8D68E34CFF792DAC2B0E5C92@KL1PR02MB7360.apcprd02.prod.outlook.com> <KL1PR02MB7360A6F9CACB9595CA7A6D37E5C92@KL1PR02MB7360.apcprd02.prod.outlook.com> <KL1PR02MB7360C7C2B849DA72D83C767AE5C82@KL1PR02MB7360.apcprd02.prod.outlook.com> <KL1PR02MB7360975BFDA671E21BD40E44E5CB2@KL1PR02MB7360.apcprd02.prod.outlook.com> <SG2PR02MB5999CD62E992A225B1919B7F96CB2@SG2PR02MB5999.apcprd02.prod.outlook.com> <SG2PR02MB59993D956B8ABD022E1E9F6F96CB2@SG2PR02MB5999.apcprd02.prod.outlook.com> <SG2PR02MB5999202A451654A44C324E2E96CB2@SG2PR02MB5999.apcprd02.prod.outlook.com> <TYZPR02MB465418E8DB4E387EC0AD80048CD82@TYZPR02MB4654.apcprd02.prod.outlook.com> <SG2PR02MB5999430D8210489A4747A04796D82@SG2PR02MB5999.apcprd02.prod.outlook.com> <SG2PR02MB59997CFF40A1384C81F9EA4E96D82@SG2PR02MB5999.apcprd02.prod.outlook.com> <SG2PR02MB59998857B8DBE082D80C99B896D82@SG2PR02MB5999.apcprd02.prod.outlook.com> <TYZPR02MB46541619CDE25C65B9E53C8F8CD82@TYZPR02MB4654.apcprd02.prod.outlook.com> <TY0PR02MB57669DD955E37E5A74DF33D48FBA2@TY0PR02MB5766.apcprd02.prod.outlook.com> <SG2PR02MB5999AADD9601987EE323B1B0968D2@SG2PR02MB5999.apcprd02.prod.outlook.com> <TY0PR02MB57668727BB9757AD3E9BFD028F8D2@TY0PR02MB5766.apcprd02.prod.outlook.com> <TY0PR02MB5766984EC53A2E45238F3EA18F8D2@TY0PR02MB5766.apcprd02.prod.outlook.com> <SI2PR02MB577863C82DE5A9A1AB68110B8F8D2@SI2PR02MB5778.apcprd02.prod.outlook.com> <TYZPR02MB5087CDBB9761D804C4D85BD88688A@TYZPR02MB5087.apcprd02.prod.outlook.com> <TYZPR02MB50877C7FFFBF175C727020E28688A@TYZPR02MB5087.apcprd02.prod.outlook.com> <SG2PR02MB5999D5B448B47F001A6AF60B9688A@SG2PR02MB5999.apcprd02.prod.outlook.com> <SG2PR02MB59998AE3F1990B67F0494C2F9688A@SG2PR02MB5999.apcprd02.prod.outlook.com> <TYZPR02MB50876AC517277C39220B06848688A@TYZPR02MB5087.apcprd02.prod.outlook.com> <TYZPR02MB50872BCACF1ADEBE80B095928688A@TYZPR02MB5087.apcprd02.prod.outlook.com> <TYZPR02MB5087329806129FB3D7C74F2D8688A@TYZPR02MB5087.apcprd02.prod.outlook.com> <TYZPR02MB5087678FCEA8247F001514548688A@TYZPR02MB5087.apcprd02.prod.outlook.com> <TYZPR02MB5087F909E54D76F862CB8D8A8688A@TYZPR02MB5087.apcprd02.prod.outlook.com> <13289051.1560317.1746617330212@mail.yahoo.com> <CAD0aqD2BBSBUCpSOGJ45GG2TMA=kZ0hMXw4h0Qt3x9nNUyGg5Q@mail.gmail.com> <CANmjPzapUkShJ0rJHCZZKiZHaXV-kFtgX1v_4KB87H7coBWQwQ@mail.gmail.com>
+In-Reply-To: <CANmjPzapUkShJ0rJHCZZKiZHaXV-kFtgX1v_4KB87H7coBWQwQ@mail.gmail.com>
+From: Anushka Chowdhury <anushkachowdhury1909@gmail.com>
+Date: Thu, 8 May 2025 16:54:41 +0530
+X-Gm-Features: ATxdqUHzqcTT301ujTvgawW_huAEVVgHlTpA6zj9T61hoy16flqy-I-QSdvCaiI
+Message-ID: <CAKEy1-xCAYv-66z=4pRcSDykjjs1jB8_chGqSjuBydmQpoywwQ@mail.gmail.com>
+Subject: Fwd: 2025 batch : Invitation for 2025 campus selects: Join us for "Hello Cognizant" on 9th May 2025 at Cognizant Kolkata office.
+To: aiml202125@googlegroups.com
+Content-Type: multipart/mixed; boundary="00000000000053a8ca06349e19bb"
+X-Original-Sender: anushkachowdhury1909@gmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=bPljxtl7;
+       spf=pass (google.com: domain of anushkachowdhury1909@gmail.com designates 2a00:1450:4864:20::229 as permitted sender) smtp.mailfrom=anushkachowdhury1909@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
+Precedence: list
+Mailing-list: list aiml202125@googlegroups.com; contact aiml202125+owners@googlegroups.com
+List-ID: <aiml202125.googlegroups.com>
+X-Spam-Checked-In-Group: aiml202125@googlegroups.com
+X-Google-Group-Id: 238480894205
+List-Post: <https://groups.google.com/group/aiml202125/post>, <mailto:aiml202125@googlegroups.com>
+List-Help: <https://groups.google.com/support/>, <mailto:aiml202125+help@googlegroups.com>
+List-Archive: <https://groups.google.com/group/aiml202125
+List-Unsubscribe: <mailto:googlegroups-manage+238480894205+unsubscribe@googlegroups.com>, <https://groups.google.com/group/aiml202125/subscribe>
+
+--00000000000053a8ca06349e19bb
+Content-Type: multipart/related; boundary="00000000000053a8ca06349e19ba"
+
+--00000000000053a8ca06349e19ba
+Content-Type: multipart/alternative; boundary="00000000000053a8c506349e19b9"
+
+--00000000000053a8c506349e19b9
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+---------- Forwarded message ---------
+From: Dr. Sudipta Chakrabarty <chakrabarty.sudipta@gmail.com>
+Date: Thu, 8 May, 2025, 2:46=E2=80=AFpm
+Subject: Fwd: 2025 batch : Invitation for 2025 campus selects: Join us for
+"Hello Cognizant" on 9th May 2025 at Cognizant Kolkata office.
+To: <harshtekriwalcsds@gmail.com>, <kahinimaity12@gmail.com>, <
+sumantrabanerjeeharry@gmail.com>, <shreyapaul25csds@gmail.com>, <
+shamikghoshxd@gmail.com>, <sayaksengupta2110@gmail.com>, <
+anushkachowdhury1909@gmail.com>, <abhishekkumar438126@gmail.com>
+Cc: Lewlisa Saha <sahalewlisa@yahoo.in>, Supriya Sarkar <
+supriyasarkar2501@gmail.com>, AIML TMSL <
+hod.aiml.tmsl@technoindiaeducation.com>, Subhajoti Saha <
+subhajotisaha@gmail.com>, Suman Dutta <duttasuman243@gmail.com>
+
+
+
+---------- Forwarded message ---------
+From: TECHNO MAIN SALTLAKE -PLACEMENT CELL <
+placement.tmsl@technoindiaeducation.com>
+Date: Thu, 8 May, 2025, 1:08=E2=80=AFpm
+Subject: 2025 batch : Invitation for 2025 campus selects: Join us for
+"Hello Cognizant" on 9th May 2025 at Cognizant Kolkata office.
+To: =E2=80=9CTMSL AIML-HOD=E2=80=9D <hod.aiml.tmsl@technoindiaeducation.com=
+>, Dr. Sudipta
+Chakrabarty <chakrabarty.sudipta@gmail.com>, =E2=80=9CTMSL-EIE-HOD=E2=80=9D=
+ <
+hod.eie.tmsl@technoindiaeducation.com>, =E2=80=9CTMSL=E2=80=93EIE S.Bhowmik=
+-FPC=E2=80=9D <
+subhajitsan@yahoo.co.in>
+Cc: =E2=80=9CTMSL- Principal=E2=80=9D <principal.tmsl@technoindiaeducation.=
+com>, =E2=80=9CTMSL-
+Soumitra Sasmal=E2=80=9D <soumitra@technoindiaeducation.com>
+
+
+Dear Sir,
+
+Please take a look at the trail email with the attached file shared by the
+Company, and request you to inform the candidate from your department only
+who is invited for this programme.
+
+It is mandatory to attend the said  programme .
+
+Thanks and Regards,
+
+
+
+*PLACEMENT CELL*
+
+----------------------------------------------------------------
+
+*TECHNO MAIN SALTLAKE*
+
+Formerly Known as Techno India Salt lake
+
+EM-4/1, Sector-V, Salt Lake, Kolkata-700091, WB
+<https://www.google.com/maps/search/4%2F1,+Sector-V,+Salt+Lake,+Kolkata-700=
+091,+WB?entry=3Dgmail&source=3Dg>
+
+Website: https://www.ticollege.ac.in/
+
+---------------------------------------------------
+
+
+
+Dear Placement Officer,
+
+
+
+Greetings from Cognizant!
+
+
+
+At Cognizant, we are committed to nurturing young talent and helping them
+build a fulfilling career. We are thrilled to invite the recent 2025 campus
+selects for an exciting =E2=80=9CHello Cognizant=E2=80=9D event at *Cogniza=
+nt Kolkata* on
+*9**th* *May 2025*.
+
+
+
+We believe this interaction will be a fantastic opportunity for your
+students to connect with our leaders and provide valuable insights into
+their future with Cognizant.
+
+
+
+We are thrilled to announce that three of our esteemed leaders, *Sajid
+Hussain*, *Surajit Datta *and *Rajib Pachal*, will be joining us for this
+session.
+
+
+
+*Please communicate to the students to join us at Cognizant Technology
+Solutions**, **Kolkata, DH Block(Newtown), Action Area I, Newtown,
+Chakpachuria, New Town, West Bengal 700135* *by 9:00 a.m.*
+
+
+
+We kindly request you to share the invitation with your students and
+encourage their enthusiastic participation. Let's come together to make
+this event a memorable one!
+
+
+
+*Warm regards,*
+
+*GenC =E2=80=93 Human Resources*
+
+=C2=A9 2025 Cognizant. All rights reserved.
+
+                              www.cognizant.com
+
+
+This e-mail and any files transmitted with it are for the sole use of the
+intended recipient(s) and may contain confidential and privileged
+information. If you are not the intended recipient(s), please reply to the
+sender and destroy all copies of the original message. Any unauthorized
+review, use, disclosure, dissemination, forwarding, printing or copying of
+this email, and/or any action taken in reliance on the contents of this
+e-mail is strictly prohibited and may be unlawful. Where permitted by
+applicable law, this e-mail and other e-mail communications sent to and
+from Cognizant e-mail addresses may be monitored.
+
+
+--
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+AIML2021-25" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to aiml202125+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/aiml202125/=
+CAKEy1-xCAYv-66z%3D4pRcSDykjjs1jB8_chGqSjuBydmQpoywwQ%40mail.gmail.com.
+For more options, visit https://groups.google.com/d/optout.
+
+--00000000000053a8c506349e19b9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"></div><br><div class=3D"gmail_quote gmail_quote_container=
+"><div dir=3D"ltr" class=3D"gmail_attr">---------- Forwarded message ------=
+---<br>From: <strong class=3D"gmail_sendername" dir=3D"auto">Dr. Sudipta Ch=
+akrabarty</strong> <span dir=3D"auto">&lt;<a href=3D"mailto:chakrabarty.sud=
+ipta@gmail.com">chakrabarty.sudipta@gmail.com</a>&gt;</span><br>Date: Thu, =
+8 May, 2025, 2:46=E2=80=AFpm<br>Subject: Fwd: 2025 batch : Invitation for 2=
+025 campus selects: Join us for &quot;Hello Cognizant&quot; on 9th May 2025=
+ at Cognizant Kolkata office.<br>To:  &lt;<a href=3D"mailto:harshtekriwalcs=
+ds@gmail.com">harshtekriwalcsds@gmail.com</a>&gt;,  &lt;<a href=3D"mailto:k=
+ahinimaity12@gmail.com">kahinimaity12@gmail.com</a>&gt;,  &lt;<a href=3D"ma=
+ilto:sumantrabanerjeeharry@gmail.com">sumantrabanerjeeharry@gmail.com</a>&g=
+t;,  &lt;<a href=3D"mailto:shreyapaul25csds@gmail.com">shreyapaul25csds@gma=
+il.com</a>&gt;,  &lt;<a href=3D"mailto:shamikghoshxd@gmail.com">shamikghosh=
+xd@gmail.com</a>&gt;,  &lt;<a href=3D"mailto:sayaksengupta2110@gmail.com">s=
+ayaksengupta2110@gmail.com</a>&gt;,  &lt;<a href=3D"mailto:anushkachowdhury=
+1909@gmail.com">anushkachowdhury1909@gmail.com</a>&gt;,  &lt;<a href=3D"mai=
+lto:abhishekkumar438126@gmail.com">abhishekkumar438126@gmail.com</a>&gt;<br=
+>Cc: Lewlisa Saha &lt;<a href=3D"mailto:sahalewlisa@yahoo.in">sahalewlisa@y=
+ahoo.in</a>&gt;, Supriya Sarkar &lt;<a href=3D"mailto:supriyasarkar2501@gma=
+il.com">supriyasarkar2501@gmail.com</a>&gt;, AIML TMSL &lt;<a href=3D"mailt=
+o:hod.aiml.tmsl@technoindiaeducation.com">hod.aiml.tmsl@technoindiaeducatio=
+n.com</a>&gt;, Subhajoti Saha &lt;<a href=3D"mailto:subhajotisaha@gmail.com=
+">subhajotisaha@gmail.com</a>&gt;, Suman Dutta &lt;<a href=3D"mailto:duttas=
+uman243@gmail.com">duttasuman243@gmail.com</a>&gt;<br></div><br><br><div di=
+r=3D"auto"></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"g=
+mail_attr">---------- Forwarded message ---------<br>From: <strong class=3D=
+"gmail_sendername" dir=3D"auto">TECHNO MAIN SALTLAKE -PLACEMENT CELL</stron=
+g> <span dir=3D"auto">&lt;<a href=3D"mailto:placement.tmsl@technoindiaeduca=
+tion.com" target=3D"_blank" rel=3D"noreferrer">placement.tmsl@technoindiaed=
+ucation.com</a>&gt;</span><br>Date: Thu, 8 May, 2025, 1:08=E2=80=AFpm<br>Su=
+bject: 2025 batch : Invitation for 2025 campus selects: Join us for &quot;H=
+ello Cognizant&quot; on 9th May 2025 at Cognizant Kolkata office.<br>To: =
+=E2=80=9CTMSL AIML-HOD=E2=80=9D &lt;<a href=3D"mailto:hod.aiml.tmsl@technoi=
+ndiaeducation.com" target=3D"_blank" rel=3D"noreferrer">hod.aiml.tmsl@techn=
+oindiaeducation.com</a>&gt;, Dr. Sudipta Chakrabarty &lt;<a href=3D"mailto:=
+chakrabarty.sudipta@gmail.com" target=3D"_blank" rel=3D"noreferrer">chakrab=
+arty.sudipta@gmail.com</a>&gt;, =E2=80=9CTMSL-EIE-HOD=E2=80=9D &lt;<a href=
+=3D"mailto:hod.eie.tmsl@technoindiaeducation.com" target=3D"_blank" rel=3D"=
+noreferrer">hod.eie.tmsl@technoindiaeducation.com</a>&gt;, =E2=80=9CTMSL=E2=
+=80=93EIE S.Bhowmik-FPC=E2=80=9D &lt;<a href=3D"mailto:subhajitsan@yahoo.co=
+.in" target=3D"_blank" rel=3D"noreferrer">subhajitsan@yahoo.co.in</a>&gt;<b=
+r>Cc: =E2=80=9CTMSL- Principal=E2=80=9D &lt;<a href=3D"mailto:principal.tms=
+l@technoindiaeducation.com" target=3D"_blank" rel=3D"noreferrer">principal.=
+tmsl@technoindiaeducation.com</a>&gt;, =E2=80=9CTMSL- Soumitra Sasmal=E2=80=
+=9D &lt;<a href=3D"mailto:soumitra@technoindiaeducation.com" target=3D"_bla=
+nk" rel=3D"noreferrer">soumitra@technoindiaeducation.com</a>&gt;<br></div><=
+br><br><div dir=3D"ltr"><div>Dear Sir, <br></div><div><br></div><div>Please=
+ take a look at the trail email with the attached file shared by the Compan=
+y, and request you to inform the candidate from your department only who is=
+ invited for this programme.=C2=A0</div><div><br></div><div>It is mandatory=
+ to attend the said=C2=A0 programme .</div><div><br></div><div class=3D"gma=
+il_quote">
+<p class=3D"MsoNormal" style=3D"margin-bottom:0.0001pt"><span style=3D"font=
+-family:&quot;Cambria&quot;,serif">Thanks
+and Regards,</span></p>
+
+<p class=3D"MsoNormal" style=3D"margin-bottom:0.0001pt"><span style=3D"font=
+-family:&quot;Cambria&quot;,serif">=C2=A0</span></p>
+
+<p class=3D"MsoNormal" style=3D"margin-bottom:0.0001pt;line-height:normal">=
+<b><span style=3D"font-family:&quot;Times New Roman&quot;,serif;color:rgb(7=
+,55,99)">PLACEMENT CELL</span></b><span style=3D"font-family:&quot;Times Ne=
+w Roman&quot;,serif"></span></p>
+
+<p class=3D"MsoNormal" style=3D"margin-bottom:0.0001pt;line-height:normal">=
+<span style=3D"font-family:&quot;Times New Roman&quot;,serif;color:rgb(39,7=
+8,19)">----------------------------------------------------------------</sp=
+an><span style=3D"font-family:&quot;Times New Roman&quot;,serif"></span></p=
+>
+
+<p class=3D"MsoNormal" style=3D"margin-bottom:0.0001pt;line-height:normal">=
+<b><span style=3D"font-family:&quot;Times New Roman&quot;,serif;color:rgb(3=
+1,56,100)">TECHNO MAIN SALTLAKE</span></b><b><span style=3D"font-family:&qu=
+ot;Times New Roman&quot;,serif;color:rgb(39,78,19)"> </span></b><span style=
+=3D"font-family:&quot;Times New Roman&quot;,serif"></span></p>
+
+<p class=3D"MsoNormal" style=3D"margin-bottom:0.0001pt;line-height:normal">=
+<span style=3D"font-family:&quot;Times New Roman&quot;,serif;color:rgb(204,=
+0,0)">Formerly Known as
+Techno India Salt lake </span></p>
+
+<p class=3D"MsoNormal" style=3D"margin-bottom:0.0001pt;line-height:normal">=
+<span style=3D"font-family:&quot;Times New Roman&quot;,serif"><font color=
+=3D"#0c343d">EM-<a href=3D"https://www.google.com/maps/search/4%2F1,+Sector=
+-V,+Salt+Lake,+Kolkata-700091,+WB?entry=3Dgmail&amp;source=3Dg" target=3D"_=
+blank" rel=3D"noreferrer">4/1, Sector-V, Salt Lake, Kolkata-700091, WB</a><=
+/font></span></p>
+
+<p class=3D"MsoNormal" style=3D"margin-bottom:0.0001pt;line-height:normal">=
+<font color=3D"#0c343d"><span style=3D"font-family:&quot;Times New Roman&qu=
+ot;,serif">Website</span><span style=3D"font-family:&quot;Times New Roman&q=
+uot;,serif">:</span><span style=3D"font-family:&quot;Times New Roman&quot;,=
+serif"> </span><a href=3D"https://www.ticollege.ac.in/" rel=3D"noreferrer n=
+oreferrer" target=3D"_blank"><span style=3D"font-family:&quot;Times New Rom=
+an&quot;,serif">https://www.ticollege.ac.in/</span></a></font><span style=
+=3D"font-size:9.5pt;font-family:&quot;Times New Roman&quot;,serif"> </span>=
+<span style=3D"font-size:10pt;font-family:&quot;Times New Roman&quot;,serif=
+;color:black"></span></p>
+
+<p class=3D"MsoNormal" style=3D"margin-bottom:0.0001pt;line-height:normal">=
+<span style=3D"font-size:12pt;font-family:&quot;Times New Roman&quot;,serif=
+;color:rgb(39,78,19)">---------------------------------------------------</=
+span><span style=3D"font-size:9.5pt;font-family:&quot;Times New Roman&quot;=
+,serif"></span></p><p class=3D"MsoNormal" style=3D"margin-bottom:0.0001pt;l=
+ine-height:normal"><span style=3D"font-size:12pt;font-family:&quot;Times Ne=
+w Roman&quot;,serif;color:rgb(39,78,19)"><img width=3D"200" height=3D"50" s=
+rc=3D"https://ci3.googleusercontent.com/mail-sig/AIorK4w6EjhB4WwieEybK3O4uX=
+QAF3W2qC0u-C9JzyMfylgWVB0zdw9AY47cTHf0831IJ1ZLlVDeINY"></span></p>
+
+<br><div><div id=3D"m_-8444677459758219716m_-6099601291792773053m_-15756379=
+83887780074ydpe013d274yahoo_quoted_7527742525"><div style=3D"font-family:&#=
+39;Helvetica Neue&#39;,Helvetica,Arial,sans-serif;font-size:13px;color:#262=
+82a"><div><br></div>
+               =20
+               =20
+                <div><div id=3D"m_-8444677459758219716m_-609960129179277305=
+3m_-1575637983887780074ydpe013d274yiv3070831070">
+
+=20
+=20
+
+
+<div>
+<div>
+<div align=3D"center">
+<table border=3D"1" cellspacing=3D"0" cellpadding=3D"0" style=3D"border:sol=
+id #d9d9d9 1.0pt">
+<tbody>
+<tr>
+<td width=3D"764" valign=3D"top" style=3D"width:573.15pt;border:none;paddin=
+g:0in 0in 0in 0in">
+<p><span style=3D"font-family:New serif"><img style=3D"width:763px;max-widt=
+h:800px" id=3D"m_-8444677459758219716m_-6099601291792773053m_-1575637983887=
+780074ydpe013d274yiv3070831070Picture_x0020_9" src=3D"cid:ii_196aec88b285b1=
+6b21"></span><span style=3D"font-family:New serif"></span></p>=20
+</td>
+</tr>
+<tr style=3D"min-height:287.85pt">
+<td width=3D"764" valign=3D"top" style=3D"width:573.15pt;border:none;backgr=
+ound:white;padding:30.0pt 56.25pt 30.0pt 56.25pt;min-height:287.85pt">
+<p><span style=3D"font-family:sans-serif;color:#000048">Dear Placement Offi=
+cer,</span></p>=20
+<p><span style=3D"font-family:sans-serif;color:#000048"> =C2=A0</span></p>=
+=20
+<p><span style=3D"font-family:sans-serif;color:#000048">Greetings from Cogn=
+izant!</span></p>=20
+<p><span style=3D"font-family:sans-serif;color:#000048"> =C2=A0</span></p>=
+=20
+<p><span style=3D"font-family:sans-serif;color:#000048">At Cognizant, we ar=
+e committed to nurturing young talent and helping them build a fulfilling c=
+areer. We are thrilled to invite the recent 2025 campus selects for an exci=
+ting =E2=80=9CHello
+ Cognizant=E2=80=9D event at <b>Cognizant Kolkata</b> on </span><b><span st=
+yle=3D"font-family:sans-serif;color:black">9</span></b><b><sup><span style=
+=3D"font-family:sans-serif;color:#000048">th</span></sup></b><b><span style=
+=3D"font-family:sans-serif;color:black">
+</span></b><b><span style=3D"font-family:sans-serif;color:#000048">May 2025=
+</span></b><span style=3D"font-family:sans-serif;color:#000048">.</span></p=
+>=20
+<p><span style=3D"font-family:sans-serif;color:#000048"> =C2=A0</span></p>=
+=20
+<p><span style=3D"font-family:sans-serif;color:#000048">We believe this int=
+eraction will be a fantastic opportunity for your students to connect with =
+our leaders and provide valuable insights into their future with Cognizant.=
+</span></p>=20
+<p><span style=3D"font-family:sans-serif;color:#000048"> =C2=A0</span></p>=
+=20
+<p><span style=3D"font-family:sans-serif;color:#000048">We are thrilled to =
+announce that three</span><span style=3D"font-family:sans-serif;color:black=
+">
+</span><span style=3D"font-family:sans-serif;color:#000048">of our esteemed=
+ leaders,
+<b>Sajid Hussain</b></span><span style=3D"font-family:sans-serif;color:blac=
+k">,
+</span><b><span style=3D"font-family:sans-serif;color:#000048">Surajit Datt=
+a
+</span></b><span style=3D"font-family:sans-serif;color:#000048">and <b>Raji=
+b Pachal</b>, will be joining us for this session.</span><span style=3D"fon=
+t-family:sans-serif;color:black">
+</span><span style=3D"font-family:sans-serif;color:#000048"></span></p>=20
+<p><span style=3D"font-size:12.0pt;font-family:sans-serif"> =C2=A0</span></=
+p>=20
+<p><b><span style=3D"font-family:sans-serif;color:#000048">Please communica=
+te to the students to join us at Cognizant Technology Solutions</span></b><=
+b><span style=3D"font-family:sans-serif;color:black">,
+</span></b><b><span style=3D"font-family:sans-serif;color:#000048">Kolkata,=
+ DH Block(Newtown), Action Area I, Newtown, Chakpachuria, New Town, West Be=
+ngal 700135</span></b><b><span style=3D"font-family:sans-serif;color:black"=
+>
+</span></b><b><span style=3D"font-family:sans-serif;color:#000048">by 9:00 =
+a.m.</span></b></p>=20
+<p><span style=3D"font-family:sans-serif;color:#000048"> =C2=A0</span></p>=
+=20
+<p><span style=3D"font-family:sans-serif;color:#000048">We kindly request y=
+ou to share the invitation with your students and encourage their enthusias=
+tic participation. Let&#39;s come together to make this event a memorable o=
+ne!</span></p>=20
+<p><b><span style=3D"font-family:sans-serif;color:#000048"> =C2=A0</span></=
+b></p>=20
+<p><b><span style=3D"font-family:sans-serif;color:#000048">Warm regards,</s=
+pan></b></p>=20
+<p><b><span style=3D"font-family:sans-serif;color:#000048">GenC =E2=80=93 H=
+uman Resources</span></b><span style=3D"font-size:12.0pt;font-family:sans-s=
+erif"></span></p>=20
+</td>
+</tr>
+<tr>
+<td width=3D"764" style=3D"width:573.15pt;border:none;background:#000048;pa=
+dding:11.25pt 56.25pt 11.25pt 55.5pt">
+<table border=3D"0" cellspacing=3D"3" cellpadding=3D"0" width=3D"615" style=
+=3D"width:461.4pt">
+<tbody>
+<tr>
+<td style=3D"padding:0in 0in 0in 0in">
+<p><span style=3D"font-size:10.0pt;font-family:sans-serif;color:white">=C2=
+=A9 2025</span><span style=3D"font-size:10.0pt;font-family:sans-serif">
+<span style=3D"color:white">Cognizant. All rights reserved.</span></span></=
+p>=20
+</td>
+<td width=3D"232" style=3D"width:173.95pt;padding:0in 0in 0in 0in">
+<p><span style=3D"font-size:10.0pt;font-family:sans-serif">=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0
+</span><a href=3D"https://www.cognizant.com/" rel=3D"nofollow noreferrer no=
+referrer" target=3D"_blank"><span style=3D"font-size:10.0pt;font-family:san=
+s-serif;color:white;text-decoration:none">www.cognizant.com</span></a><span=
+ style=3D"font-size:10.0pt;font-family:sans-serif;color:white"></span></p>=
+=20
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p> =C2=A0</p>=20
+</div>
+This e-mail and any files transmitted with it are for the sole use of the i=
+ntended recipient(s) and may contain confidential and privileged informatio=
+n. If you are not the intended recipient(s), please reply to the sender and=
+ destroy all copies of the original
+ message. Any unauthorized review, use, disclosure, dissemination, forwardi=
+ng, printing or copying of this email, and/or any action taken in reliance =
+on the contents of this e-mail is strictly prohibited and may be unlawful. =
+Where permitted by applicable law,
+ this e-mail and other e-mail communications sent to and from Cognizant e-m=
+ail addresses may be monitored.
+</div>
+
+</div></div>
+            </div>
+        </div></div></div><div><br clear=3D"all"></div><br><span class=3D"g=
+mail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signat=
+ure" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><br></div></div></=
+div>
+</div>
+</div>
+
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;AIML2021-25&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:aiml202125+unsubscribe@googlegroups.com">aiml2021=
+25+unsubscribe@googlegroups.com</a>.<br />
+To view this discussion visit <a href=3D"https://groups.google.com/d/msgid/=
+aiml202125/CAKEy1-xCAYv-66z%3D4pRcSDykjjs1jB8_chGqSjuBydmQpoywwQ%40mail.gma=
+il.com?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/=
+msgid/aiml202125/CAKEy1-xCAYv-66z%3D4pRcSDykjjs1jB8_chGqSjuBydmQpoywwQ%40ma=
+il.gmail.com</a>.<br />
+For more options, visit <a href=3D"https://groups.google.com/d/optout">http=
+s://groups.google.com/d/optout</a>.<br />
+
+--00000000000053a8c506349e19b9--
+--00000000000053a8ca06349e19ba
+Content-Type: image/png; name="image002.png"
+Content-Disposition: inline; filename="image002.png"
+Content-Transfer-Encoding: base64
+Content-ID: <ii_196aec88b285b16b21>
+X-Attachment-Id: ii_196aec88b285b16b21
+
+
+--00000000000053a8ca06349e19ba--
+--00000000000053a8ca06349e19bb
+Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; name="Techno India, Salt Lake.xlsx"
+Content-Disposition: attachment; filename="Techno India, Salt Lake.xlsx"
+Content-Transfer-Encoding: base64
+Content-ID: <196aec88b29fdcf8b303>
+X-Attachment-Id: 196aec88b29fdcf8b303
+
+
+--00000000000053a8ca06349e19bb--

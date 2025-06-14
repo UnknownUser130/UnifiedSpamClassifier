@@ -2,7 +2,10 @@ import streamlit as st
 import sqlite3
 import hashlib
 from datetime import datetime
-import app_ver2
+import app as app
+import __main__
+from Graph_Email import GraphBasedSpamFilter as _G
+__main__.GraphBasedSpamFilter = _G
 
 def adapt_datetime(ts):
     return ts.isoformat()
@@ -50,13 +53,35 @@ def logout():
     st.rerun()
 
 def main():
+
+    if "authenticated" not in st.session_state:
+        st.session_state["authenticated"] = False
+    if "login_username" not in st.session_state:
+        st.session_state["login_username"] = ""
+    if "login_password" not in st.session_state:
+        st.session_state["login_password"] = ""
+    if "current_user" not in st.session_state:
+        st.session_state["current_user"] = ""
+
+    st.set_page_config(
+        page_title="Spam Classifier",
+        page_icon="📨",
+        layout="wide",
+        initial_sidebar_state="expanded",
+    )
     init_db()
     
-    if 'authenticated' not in st.session_state:
-        st.session_state.authenticated = False
 
-    if not st.session_state.authenticated:
-        st.title("Welcome to SMS Spam Detection System")
+    if st.session_state.authenticated:
+        col1, col2 = st.columns([0.9, 0.2])
+        st.success(f"Logged in as {st.session_state['login_username']}")
+        with col2:
+            if st.button("Logout"):
+                logout()
+        app.run_app()
+        
+    else:
+        st.title("Welcome to Unified Spam Detection System")
         tab1, tab2 = st.tabs(["Login", "Sign Up"])
         
         with tab1:
@@ -66,8 +91,9 @@ def main():
             if st.button("Login"):
                 if login_user(login_username, login_password):
                     st.session_state.authenticated = True
+                    st.session_state["current_user"] = login_username
                     st.success("Logged in successfully!")
-                    st.rerun()
+                    st.experimental_rerun()
                 else:
                     st.error("Invalid username or password")
         
@@ -83,13 +109,8 @@ def main():
                     st.success("Account created successfully! Please login.")
                 else:
                     st.error("Username already exists!")
-    else:
-        col1, col2 = st.columns([0.9, 0.2])
-        with col2:
-            if st.button("Logout"):
-                logout()
 
-        app_ver2.run_app()
+    
 
 if __name__ == "__main__":
     main()

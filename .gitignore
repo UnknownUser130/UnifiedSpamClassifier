@@ -1,28 +1,14 @@
-# ML Models
-model_mnb_super.pkl
-model_stacking_super.pkl
-model.pkl
-vectorizer.pkl
-
-# Datasets
-spamSMS.csv
-super_sms_dataset.csv
-
-# Notebooks
-New version.ipynb
-SmsSpamClassification.ipynb
-
-# Python
+Graph_Email.ipynb
+graph_filter_new.pkl
+graph_filter.pkl
+graph_spam_anim.py
+ann_model_new.keras
+Messages.csv
+shap_values_ham.pkl
+shap_values_spam.pkl
+# ignore Python byte-code
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
 *.py[cod]
-*$py.class
-
-# Environment
-.env
-.venv
-env/
-venv/
+shap/
+# ignore venv
+.venv/
