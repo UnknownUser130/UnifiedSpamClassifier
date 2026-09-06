@@ -40,66 +40,173 @@ def load_email_dataset():
     df["length"] = df["combined_text"].str.len()
     return df
 def run_app():
-    
+    st.set_page_config(
+        page_title="Unified Spam Classifier",
+        page_icon="📨",
+        layout="wide",
+        initial_sidebar_state="expanded",
+    )
+
     # ---------------------- THEME ----------------------
     def custom_theme():
         return """
         <style>
         :root {
-            --spam-card-bg: #FFE5E5;
-            --spam-card-border: #FF6B6B;
-            --ham-card-bg: #E5FFE5;
-            --ham-card-border: #4ECDC4;
-            --card-shadow: rgba(0, 0, 0, 0.1);
+            --bg: #0f172a;
+            --panel: rgba(15, 23, 42, 0.72);
+            --panel-border: rgba(148, 163, 184, 0.18);
+            --primary: #7c3aed;
+            --primary-soft: rgba(124, 58, 237, 0.14);
+            --spam-card-bg: rgba(255, 107, 107, 0.12);
+            --spam-card-border: #ff6b6b;
+            --ham-card-bg: rgba(78, 205, 196, 0.12);
+            --ham-card-border: #4ecdc4;
+            --card-shadow: rgba(15, 23, 42, 0.28);
+            --text: #e2e8f0;
+            --muted: #cbd5e1;
+            --soft: #94a3b8;
         }
-        .result-card {
-            padding: 25px;
-            margin: 20px 0;
-            border-radius: 12px;
-            transition: all 0.3s ease;
+
+        html, body {
+            background: linear-gradient(135deg, #020817 0%, #111827 38%, #1e293b 100%);
         }
-        .spam-result {
-            background-color: var(--spam-card-bg);
-            border: 2px solid var(--spam-card-border);
-            box-shadow: 0 4px 6px var(--card-shadow);
-            color: #000; /* makes text clearly visible in dark mode */
+
+        .stApp {
+            background: linear-gradient(135deg, #020817 0%, #111827 38%, #1e293b 100%);
+            color: var(--text);
         }
-        .ham-result {
-            background-color: var(--ham-card-bg);
-            border: 2px solid var(--ham-card-border);
-            box-shadow: 0 4px 6px var(--card-shadow);
-            color: #000; /* makes text clearly visible in dark mode */
+
+        .block-container {
+            padding-top: 1.5rem;
+            padding-bottom: 3rem;
+            max-width: 1200px;
         }
-        .result-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px var(--card-shadow);
-        }
+
         .main-header {
-            font-size: 42px;
-            font-weight: bold;
+            font-size: 2.6rem;
+            font-weight: 800;
             text-align: center;
-            margin-bottom: 20px;
-            transition: color 0.3s ease;
+            margin: 0.2rem 0 0.5rem;
+            letter-spacing: -0.04em;
+            background: linear-gradient(90deg, #c084fc 0%, #60a5fa 35%, #34d399 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
         }
+
         .sub-header {
-            font-size: 18px;
+            font-size: 1.05rem;
             text-align: center;
-            margin-bottom: 30px;
-            transition: color 0.3s ease;
+            color: var(--muted);
+            margin-bottom: 1.5rem;
         }
-        .highlight {
-            padding: 2px 4px;
-            border-radius: 3px;
-            font-weight: 500;
-            background-color: rgba(255, 193, 7, 0.3);
+
+        .tabs-header {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--text);
         }
-        .stButton > button {
-            border-radius: 8px;
-            padding: 10px 24px;
-            transition: all 0.3s ease;
+
+        .result-card {
+            padding: 1.4rem 1.5rem;
+            margin: 1rem 0 1.5rem;
+            border-radius: 18px;
+            border: 1.5px solid transparent;
+            transition: all 0.25s ease;
+            box-shadow: 0 12px 24px var(--card-shadow);
+            color: #f8fafc;
         }
-        .stButton > button:hover {
+
+        .spam-result {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.18), rgba(127, 29, 29, 0.15));
+            border-color: var(--spam-card-border);
+        }
+
+        .ham-result {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.18), rgba(6, 78, 59, 0.12));
+            border-color: var(--ham-card-border);
+        }
+
+        .result-card:hover {
             transform: translateY(-2px);
+            box-shadow: 0 18px 28px rgba(15, 23, 42, 0.32);
+        }
+
+        .highlight {
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-weight: 700;
+            background: rgba(250, 204, 21, 0.22);
+            color: #fef3c7;
+            border: 1px solid rgba(250, 204, 21, 0.45);
+        }
+
+        .stButton > button {
+            border-radius: 12px;
+            padding: 0.7rem 1.35rem;
+            font-weight: 700;
+            border: none;
+            background: linear-gradient(90deg, #8b5cf6 0%, #3b82f6 100%);
+            color: white;
+            box-shadow: 0 10px 16px rgba(59, 130, 246, 0.25);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .stButton > button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 14px 20px rgba(59, 130, 246, 0.35);
+        }
+
+        .stTextInput > div > div > input,
+        .stTextArea > div > div > textarea,
+        .stSelectbox > div > div,
+        .stRadio > div {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            color: var(--text);
+            border-radius: 12px;
+        }
+
+        .stFileUploader > div {
+            background: rgba(15, 23, 42, 0.72);
+            border: 1px dashed rgba(148, 163, 184, 0.25);
+            border-radius: 14px;
+        }
+
+        .stSidebar {
+            background: rgba(15, 23, 42, 0.72);
+            border-right: 1px solid rgba(148, 163, 184, 0.12);
+        }
+
+        .stTabs [role="tablist"] {
+            gap: 0.5rem;
+        }
+
+        .stTabs [role="tab"] {
+            border-radius: 10px 10px 0 0;
+            padding: 0.6rem 0.9rem;
+            color: var(--muted);
+            border: 1px solid transparent;
+        }
+
+        .stTabs [role="tab"][aria-selected="true"] {
+            background: rgba(124, 58, 237, 0.14);
+            border-color: rgba(167, 139, 250, 0.42);
+            color: white;
+        }
+
+        [data-testid="stMetric"] {
+            background: rgba(15, 23, 42, 0.65);
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            border-radius: 14px;
+            padding: 0.8rem 1rem;
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.18);
+        }
+
+        .css-1d391kg, .css-18e3th9 {
+            color: var(--text);
         }
         </style>
         """
@@ -303,9 +410,23 @@ def run_app():
     st.markdown('<div class="main-header">📨 Unified SMS & Email Spam Classifier</div>', unsafe_allow_html=True)
     st.markdown('<div class="sub-header">Uses Naive Bayes for SMS and Graph filter & ANN for Emails.</div>', unsafe_allow_html=True)
 
+    data_type = st.sidebar.selectbox("Choose Data Type", ["SMS", "Email"])
+
+    st.markdown("""
+    <div style="display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:1rem;">
+        <div style="flex:1; min-width:180px; padding:0.9rem 1.1rem; border-radius:12px; background:rgba(15,23,42,0.64); border:1px solid rgba(148,163,184,0.18); color:#e2e8f0;">
+            <div style="font-size:0.8rem; color:#cbd5e1;">Detection Mode</div>
+            <div style="font-size:1.2rem; font-weight:700; margin-top:0.2rem;">{}</div>
+        </div>
+        <div style="flex:1; min-width:180px; padding:0.9rem 1.1rem; border-radius:12px; background:rgba(15,23,42,0.64); border:1px solid rgba(148,163,184,0.18); color:#e2e8f0;">
+            <div style="font-size:0.8rem; color:#cbd5e1;">Model Stack</div>
+            <div style="font-size:1.2rem; font-weight:700; margin-top:0.2rem;">Naive Bayes + Graph + ANN</div>
+        </div>
+    </div>
+    """.format(data_type), unsafe_allow_html=True)
+
     # Main tabs
     tab1, tab2, tab3 = st.tabs(["📩 Classifier", "📊 Insights", "ℹ️ About"])
-    data_type = st.sidebar.selectbox("Choose Data Type", ["SMS", "Email"])
 
     # ---------------------- TAB 1: CLASSIFIER ----------------------
     with tab1:
