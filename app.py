@@ -631,3 +631,6 @@ def run_app():
 
     st.markdown("---")
     st.markdown("Unified Spam Detection – Final Year Project-II")
+
+if __name__ == "__main__":
+    run_app()
