@@ -93,7 +93,7 @@ def main():
                     st.session_state.authenticated = True
                     st.session_state["current_user"] = login_username
                     st.success("Logged in successfully!")
-                    st.experimental_rerun()
+                    st.rerun()
                 else:
                     st.error("Invalid username or password")
         

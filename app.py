@@ -40,12 +40,8 @@ def load_email_dataset():
     df["length"] = df["combined_text"].str.len()
     return df
 def run_app():
-    st.set_page_config(
-        page_title="Unified Spam Classifier",
-        page_icon="📨",
-        layout="wide",
-        initial_sidebar_state="expanded",
-    )
+    # page configuration is handled by the outer app entry in interface.py
+    # to avoid duplicate Streamlit setup calls during login flow.
 
     # ---------------------- THEME ----------------------
     def custom_theme():
@@ -216,16 +212,40 @@ def run_app():
     # ---------------------- LOAD MODELS & VECTORIZERS ----------------------
     @st.cache_resource
     def load_sms_model():
-        vect_sms = pickle.load(open("vectorizer_super.pkl", "rb"))
-        model_sms = pickle.load(open("model_bnb_super.pkl", "rb"))
-        return vect_sms, model_sms
+        required = ["vectorizer_super.pkl", "model_bnb_super.pkl"]
+        missing = [p for p in required if not os.path.exists(p)]
+        if missing:
+            st.error(f"Missing SMS model files: {', '.join(missing)}. Please ensure the project assets are present.")
+            return None, None
+
+        try:
+            with open("vectorizer_super.pkl", "rb") as f:
+                vect_sms = pickle.load(f)
+            with open("model_bnb_super.pkl", "rb") as f:
+                model_sms = pickle.load(f)
+            return vect_sms, model_sms
+        except Exception as exc:
+            st.error(f"Failed to load SMS model files: {exc}")
+            return None, None
 
     @st.cache_resource
     def load_email_model():
-        email_model = tf.keras.models.load_model("ann_model.keras")
-        subj_vect = pickle.load(open("subject_vectorizer.pkl", "rb"))
-        body_vect = pickle.load(open("body_vectorizer.pkl", "rb"))
-        return email_model, subj_vect, body_vect
+        required = ["ann_model.keras", "subject_vectorizer.pkl", "body_vectorizer.pkl"]
+        missing = [p for p in required if not os.path.exists(p)]
+        if missing:
+            st.error(f"Missing email model files: {', '.join(missing)}. Please ensure the project assets are present.")
+            return None, None, None
+
+        try:
+            email_model = tf.keras.models.load_model("ann_model.keras")
+            with open("subject_vectorizer.pkl", "rb") as f:
+                subj_vect = pickle.load(f)
+            with open("body_vectorizer.pkl", "rb") as f:
+                body_vect = pickle.load(f)
+            return email_model, subj_vect, body_vect
+        except Exception as exc:
+            st.error(f"Failed to load email model files: {exc}")
+            return None, None, None
 
     @st.cache_resource
     def init_graph_filter(path="graph_filter_meta.pkl", threshold=0.2):
@@ -249,6 +269,10 @@ def run_app():
 
     vect_sms, model_sms = load_sms_model()
     model_email, vect_email_subj, vect_email_body = load_email_model()
+
+    if vect_sms is None or model_sms is None or model_email is None or vect_email_subj is None or vect_email_body is None:
+        st.warning("Some model assets are missing. The app is running in limited mode until the required files are restored.")
+        return
 
     # ---------------------- HELPER FUNCTIONS ----------------------
     def highlight_text(text, trigger_words):

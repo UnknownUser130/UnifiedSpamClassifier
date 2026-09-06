@@ -11,5 +11,5 @@ df["label"]   = df["label"].astype(int)
 # train & save
 gf = GraphBasedSpamFilter(similarity_threshold=0.2)
 gf.train_with_dataframe(df)
-gf.save("graph_filter.pkl")
-print("✅ Rebuilt graph_filter.pkl against Graph_Email.GraphBasedSpamFilter")
+gf.save("graph_filter_meta.pkl")
+print("✅ Rebuilt graph_filter_meta.pkl against Graph_Email.GraphBasedSpamFilter")

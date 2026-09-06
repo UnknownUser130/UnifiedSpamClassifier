@@ -8,6 +8,16 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from bs4 import BeautifulSoup
 import pickle
+
+try:
+    stopwords.words('english')
+    WordNetLemmatizer()
+except LookupError:
+    nltk.download('punkt', quiet=True)
+    nltk.download('stopwords', quiet=True)
+    nltk.download('wordnet', quiet=True)
+    nltk.download('omw-1.4', quiet=True)
+
 lemmatizer = WordNetLemmatizer()
 stop_words = set(stopwords.words('english'))
 
