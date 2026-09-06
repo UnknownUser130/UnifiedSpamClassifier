@@ -18,3 +18,11 @@ shap/
 *.pkl
 *.keras
 *.db
+
+# Required model artifacts for Streamlit Cloud
+!ann_model.keras
+!body_vectorizer.pkl
+!subject_vectorizer.pkl
+!model_bnb_super.pkl
+!vectorizer_super.pkl
+!graph_filter_meta.pkl
