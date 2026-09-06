@@ -1,14 +1,20 @@
 Graph_Email.ipynb
 graph_filter_new.pkl
 graph_filter.pkl
+graph_filter_meta.pkl
 graph_spam_anim.py
 ann_model_new.keras
 Messages.csv
 shap_values_ham.pkl
 shap_values_spam.pkl
+users.db
+.streamlit/secrets.toml
 # ignore Python byte-code
 __pycache__/
 *.py[cod]
 shap/
 # ignore venv
 .venv/
+*.pkl
+*.keras
+*.db
